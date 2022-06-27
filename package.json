@@ -11,6 +11,15 @@
     "url": "git+https://github.com/KabDino/loggerActions.git"
   },
   "author": "",
+  "keywords": [
+    "actions",
+    "log",
+    "logger",
+    "logging",
+    "redux",
+    "react",
+    "debug"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/KabDino/loggerActions/issues"
