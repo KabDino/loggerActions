@@ -17,6 +17,10 @@ export const loggerActions = (state = initialState, action) => {
   return state;
 };
 
+const formattingTime = val => {
+  return val < 10 ? '0' + val : val;
+};
+
 export const loggerActionsMiddleware = (exceptions, stackSize = 150) => ({ dispatch }) => next => action => {
   if (typeof exceptions !== 'undefined' && !Array.isArray(exceptions) && !wasShownError) {
     console.warn('[ATTENTION] Exceptions for loggerActionsMiddleware must be an array of strings!');
@@ -25,12 +29,17 @@ export const loggerActionsMiddleware = (exceptions, stackSize = 150) => ({ dispa
 
   const exceptionsList = exceptions?.length ? [SET_ACTION, ...exceptions] : [SET_ACTION];
   const date = new Date();
-  const time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+  const time =
+    formattingTime(date.getHours()) +
+    ':' +
+    formattingTime(date.getMinutes()) +
+    ':' +
+    formattingTime(date.getSeconds());
 
-  if (action.type && !exceptionsList.includes(action.type)) {
+  if (action?.type && !exceptionsList.includes(action?.type)) {
     dispatch({
       type: SET_ACTION,
-      payload: { [action.type]: { time, payload: action.payload } },
+      payload: { name: action.type, payload: action.payload, time },
       stackSize,
     });
   }
